@@ -13,14 +13,9 @@ class DayTwo {
 
     private fun isReportSafe(levels: List<Int>): Boolean {
         val direction = levels[0] > levels[1]
-        levels.zipWithNext().forEach { (a, b) ->
-            val isDirectionValid = direction == a > b
-            val isDistanceValid = abs(b - a) in 1..3
-            if (!isDirectionValid || !isDistanceValid) {
-                return false
-            }
+        return levels.zipWithNext().all { (a, b) ->
+            direction == (a > b) && abs(b - a) in 1..3
         }
-        return true
     }
 
     fun partTwo(fileName: String): Int {
@@ -30,13 +25,9 @@ class DayTwo {
     }
 
     private fun isReportSafeWithTolerance(levels: List<Int>): Boolean {
-        val isReportSafe = isReportSafe(levels)
-        if (!isReportSafe) {
-            return List(levels.size) { index -> levels.filterIndexed { i, _ -> i != index } }
-                .map { isReportSafe(it) }
-                .any { it }
-        }
-        return true
+        return isReportSafe(levels) || levels.indices
+            .map { index -> levels.filterIndexed { i, _ -> i != index } }
+            .any { isReportSafe(it) }
     }
 
     private fun getLines(fileName: String): List<String> {
