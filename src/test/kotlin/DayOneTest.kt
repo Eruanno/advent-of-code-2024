@@ -4,7 +4,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
 class DayOneTest {
-    private val subject: DayOne = DayOne()
+    private val subject = DayOne()
 
     @ParameterizedTest
     @CsvSource(

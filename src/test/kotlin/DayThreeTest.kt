@@ -5,7 +5,7 @@ import org.junit.jupiter.params.provider.CsvSource
 import java.math.BigInteger
 
 class DayThreeTest {
-    private val subject: DayThree = DayThree()
+    private val subject = DayThree()
 
     @ParameterizedTest
     @CsvSource(
