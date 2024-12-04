@@ -6,9 +6,7 @@ import kotlin.math.abs
 class DayOne {
 
     fun partOne(fileName: String): Int {
-        val filePath = this::class.java.getResource("/$fileName")?.path ?: return 0
-        val (locationsIds1, locationsIds2) = File(filePath)
-            .readLines()
+        val (locationsIds1, locationsIds2) = getLines(fileName)
             .map { it.split("\\s+".toRegex()) }
             .map { it[0].toInt() to it[1].toInt() }
             .unzip()
@@ -17,15 +15,17 @@ class DayOne {
     }
 
     fun partTwo(fileName: String): Int {
-        val filePath = this::class.java.getResource("/$fileName")?.path ?: return 0
-        val (locationsIds1, locationsIds2) = File(filePath)
-            .readLines()
+        val (locationsIds1, locationsIds2) = getLines(fileName)
             .map { it.split("\\s+".toRegex()) }
             .map { it[0].toInt() to it[1].toInt() }
             .unzip()
 
-        val map = locationsIds2.groupingBy { it }.eachCount()
+        val locationsOccurrences = locationsIds2.groupingBy { it }.eachCount()
 
-        return locationsIds1.sumOf { it * map.getOrDefault(it, 0) }
+        return locationsIds1.sumOf { it * locationsOccurrences.getOrDefault(it, 0) }
+    }
+
+    private fun getLines(fileName: String): List<String> {
+        return this::class.java.getResource("/$fileName")?.path?.let { File(it).readLines() } ?: return emptyList()
     }
 }
