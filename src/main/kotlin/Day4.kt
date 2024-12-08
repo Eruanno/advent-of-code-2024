@@ -2,7 +2,7 @@ package org.eruanno
 
 import java.io.File
 
-class DayFour {
+class Day4 {
 
     fun partOne(fileName: String): Int {
         val lines = getLines(fileName)

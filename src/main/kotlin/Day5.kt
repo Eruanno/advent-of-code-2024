@@ -3,7 +3,7 @@ package org.eruanno
 import java.io.File
 import java.util.Collections
 
-class DayFive {
+class Day5 {
 
     fun partOne(fileName: String): Int {
         val (rules, updates) = readFileData(fileName)

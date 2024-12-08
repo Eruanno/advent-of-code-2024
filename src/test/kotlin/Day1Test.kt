@@ -1,10 +1,10 @@
-import org.eruanno.DayOne
+import org.eruanno.Day1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class DayOneTest {
-    private val subject = DayOne()
+class Day1Test {
+    private val subject = Day1()
 
     @ParameterizedTest
     @CsvSource(

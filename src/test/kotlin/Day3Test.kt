@@ -1,11 +1,11 @@
-import org.eruanno.DayThree
+import org.eruanno.Day3
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import java.math.BigInteger
 
-class DayThreeTest {
-    private val subject = DayThree()
+class Day3Test {
+    private val subject = Day3()
 
     @ParameterizedTest
     @CsvSource(

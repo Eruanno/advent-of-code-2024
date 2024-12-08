@@ -3,7 +3,7 @@ package org.eruanno
 import java.io.File
 import java.math.BigInteger
 
-class DaySeven {
+class Day7 {
 
     private enum class State {
         ADD, MULTIPLE, CONCATENATE

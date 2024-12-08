@@ -3,7 +3,7 @@ package org.eruanno
 import java.io.File
 import kotlin.math.abs
 
-class DayOne {
+class Day1 {
 
     fun partOne(fileName: String): Int {
         val (locationsIds1, locationsIds2) = getLines(fileName)
