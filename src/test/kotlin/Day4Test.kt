@@ -1,15 +1,15 @@
-import org.eruanno.DayTwo
+import org.eruanno.Day4
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class DayTwoTest {
-    private val subject = DayTwo()
+class Day4Test {
+    private val subject = Day4()
 
     @ParameterizedTest
     @CsvSource(
-        "'day-2-test', 2",
-        "'day-2', 299"
+        "'day-4-test', 18",
+        "'day-4', 2549"
     )
     fun testPartOne(testFile: String, expectedResult: Int) {
         assertEquals(expectedResult, subject.partOne(testFile))
@@ -17,9 +17,8 @@ class DayTwoTest {
 
     @ParameterizedTest
     @CsvSource(
-        "'day-2-test', 4",
-        "'day-2-edge-cases', 12",
-        "'day-2', 364"
+        "'day-4-test', 9",
+        "'day-4', 2003"
     )
     fun testPartTwo(testFile: String, expectedResult: Int) {
         assertEquals(expectedResult, subject.partTwo(testFile))

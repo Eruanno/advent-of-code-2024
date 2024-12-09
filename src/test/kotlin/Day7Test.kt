@@ -1,26 +1,27 @@
-import org.eruanno.DayOne
+import org.eruanno.Day7
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import java.math.BigInteger
 
-class DayOneTest {
-    private val subject = DayOne()
+class Day7Test {
+    private val subject = Day7()
 
     @ParameterizedTest
     @CsvSource(
-        "'day-1-test', 11",
-        "'day-1', 2164381"
+        "'day-7-test', 3749",
+        "'day-7', 2314935962622"
     )
-    fun testPartOne(testFile: String, expectedResult: Int) {
+    fun testPartOne(testFile: String, expectedResult: BigInteger) {
         assertEquals(expectedResult, subject.partOne(testFile))
     }
 
     @ParameterizedTest
     @CsvSource(
-        "'day-1-test', 31",
-        "'day-1', 20719933"
+        "'day-7-test', 11387",
+        "'day-7', 401477450831495"
     )
-    fun testPartTwo(testFile: String, expectedResult: Int) {
+    fun testPartTwo(testFile: String, expectedResult: BigInteger) {
         assertEquals(expectedResult, subject.partTwo(testFile))
     }
 }

@@ -2,7 +2,7 @@ package org.eruanno
 
 import java.io.File
 
-class DaySix {
+class Day6 {
 
     fun partOne(fileName: String): Int {
         val lines = getLines(fileName)
@@ -105,7 +105,7 @@ class DaySix {
         var direction = start.first
         var row = start.second.first
         var column = start.second.second
-        var steps = 0
+        var path = mutableSetOf<Pair<Char, Pair<Int, Int>>>()
         while (true) {
             var nextRow = row
             var nextColumn = column
@@ -125,12 +125,12 @@ class DaySix {
             } else {
                 row = nextRow
                 column = nextColumn
-                steps++
+                if (path.contains(direction to Pair(nextRow, nextColumn))) {
+                    return true
+                }
+                path.add(direction to Pair(nextRow, nextColumn))
             }
             if (row == start.second.first && column == start.second.second && direction == start.first) {
-                return true
-            }
-            if (steps > matrix.size * matrix[0].size) {
                 return true
             }
         }

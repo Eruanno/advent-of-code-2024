@@ -1,7 +1,7 @@
 package org.eruanno
 
 fun main() {
-    val day = DayOne();
+    val day = Day1();
     println("Part One")
     println(day.partOne("day-1-test"))
     println(day.partOne("day-1"))

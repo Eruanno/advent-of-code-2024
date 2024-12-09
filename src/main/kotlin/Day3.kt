@@ -3,7 +3,7 @@ package org.eruanno
 import java.io.File
 import java.math.BigInteger
 
-class DayThree {
+class Day3 {
 
     fun partOne(fileName: String): BigInteger {
         val filePath = this::class.java.getResource("/$fileName")?.path ?: return BigInteger.ZERO
