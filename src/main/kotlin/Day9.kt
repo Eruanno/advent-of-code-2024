@@ -6,67 +6,68 @@ class Day9 {
 
     fun partOne(fileName: String): Long {
         val discMap = getLines(fileName).first()
+        val printedDiscMap = printDiscMap(discMap)
         val compactedDisc = StringBuilder()
-        var start = 0
-        var end = discMap.length - 1
+        var leftIndex = 0
+        var rightIndex = discMap.length - 1
         var isFile = true
-        var fileId = 0
-        var lastFileId = (discMap.length - 1) / 2
-        var fileToMoveSize = 0
+        var leftFileId = 0
+        var rightFileId = (discMap.length - 1) / 2
+        var rightFileSize = 0
         var emptySpaceSize = 0
-        while (start < end && fileId != lastFileId) {
+        while (leftIndex < rightIndex && leftFileId != rightFileId) {
             if (isFile) {
-                var fileSize = discMap[start].digitToInt()
-                while (fileSize > 0) {
-                    compactedDisc.append(intToChar(fileId))
-                    fileSize--
+                var leftFileSize = discMap[leftIndex].digitToInt()
+                while (leftFileSize > 0) {
+                    compactedDisc.append(intToChar(leftFileId))
+                    leftFileSize--
                 }
-                start++
-                fileId++
+                leftIndex++
+                leftFileId++
                 isFile = false
             } else {
                 if (emptySpaceSize == 0) {
-                    emptySpaceSize = discMap[start].digitToInt()
-                    start++
+                    emptySpaceSize = discMap[leftIndex].digitToInt()
+                    leftIndex++
                 }
-                if (fileToMoveSize == 0) {
-                    fileToMoveSize = discMap[end].digitToInt()
-                    end -= 2
+                if (rightFileSize == 0) {
+                    rightFileSize = discMap[rightIndex].digitToInt()
+                    rightIndex -= 2
                 }
-                while (emptySpaceSize > 0 && fileToMoveSize > 0) {
-                    compactedDisc.append(intToChar(lastFileId))
+                while (emptySpaceSize > 0 && rightFileSize > 0) {
+                    compactedDisc.append(intToChar(rightFileId))
                     emptySpaceSize--
-                    fileToMoveSize--
+                    rightFileSize--
                 }
                 if (emptySpaceSize == 0) {
                     isFile = true
                 }
-                if (fileToMoveSize == 0) {
-                    lastFileId--
+                if (rightFileSize == 0) {
+                    rightFileId--
                 }
             }
         }
-        printDisc(compactedDisc)
-        if(lastFileId != fileId) {
+        //printDisc(compactedDisc)
+        if (leftFileId == rightFileId) {
+            var fileSize = discMap[leftIndex + 1].digitToInt()
+            while (fileSize > 0) {
+                compactedDisc.append(intToChar(leftFileId))
+                fileSize--
+            }
+        } else {
             if (isFile) {
-                var fileSize = discMap[start].digitToInt()
+                var fileSize = discMap[leftIndex].digitToInt()
                 while (fileSize > 0) {
-                    compactedDisc.append(intToChar(fileId))
+                    compactedDisc.append(intToChar(leftFileId))
                     fileSize--
                 }
             }
-            printDisc(compactedDisc)
-            if (fileToMoveSize > 0) {
-                while (fileToMoveSize > 0) {
-                    compactedDisc.append(intToChar(lastFileId))
-                    fileToMoveSize--
+            //printDisc(compactedDisc)
+            if (rightFileSize > 0) {
+                while (rightFileSize > 0) {
+                    compactedDisc.append(intToChar(rightFileId))
+                    rightFileSize--
                 }
-            }
-        } else {
-            var fileSize = discMap[start+1].digitToInt()
-            while (fileSize > 0) {
-                compactedDisc.append(intToChar(fileId))
-                fileSize--
             }
         }
         printDisc(compactedDisc)
@@ -76,16 +77,83 @@ class Day9 {
             checksum += compactedDisc[i].code * i
             i++
         }
+        return foo(printedDiscMap)
+    }
+
+    private fun foo(disc: String): Long {
+        var leftIndex = 0;
+        var rightIndex = disc.length - 1
+        var result = ""
+        while (leftIndex <= rightIndex) {
+            if (disc[leftIndex] == '.') {
+                while (disc[rightIndex] == '.') {
+                    rightIndex--
+                }
+                if(leftIndex < rightIndex) {
+                    result += disc[rightIndex]
+                    rightIndex--
+                }
+            } else {
+                result += disc[leftIndex]
+            }
+            leftIndex++
+        }
+        println("foo")
+        printDisc(result)
+        var checksum = 0L
+        var i = 0
+        while (i < result.length) {
+            checksum += result[i].code * i
+            i++
+        }
         return checksum
     }
 
-    private fun printDisc(disc: StringBuilder) {
+    private fun printDisc(disc: String): String {
         var i = 0
+        var result = ""
         while (i < disc.length) {
-            print(disc[i].code)
+            result += disc[i].code
             i++
         }
-        println()
+        println(result)
+        return result
+    }
+
+    private fun printDisc(disc: StringBuilder): String {
+        var i = 0
+        var result = ""
+        while (i < disc.length) {
+            result += disc[i].code
+            i++
+        }
+        println(result)
+        return result
+    }
+
+    private fun printDiscMap(disc: String): String {
+        var i = 0
+        var result = ""
+        var isFile = true
+        var fileId = 0
+        while (i < disc.length) {
+            var j = 0
+            while (j < disc[i].digitToInt()) {
+                if (isFile) {
+                    result += intToChar(fileId)
+                } else {
+                    result += "."
+                }
+                j++
+            }
+            if (isFile) {
+                fileId++
+            }
+            isFile = !isFile
+            i++
+        }
+        //println(result)
+        return result
     }
 
     fun partTwo(fileName: String): Int {

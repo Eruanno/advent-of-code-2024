@@ -8,11 +8,12 @@ class Day9Test {
 
     @ParameterizedTest
     @CsvSource(
-        //"'day-9-test-simple', 60",
-        //"'day-9-test-simple-2', 99",
-        //"'day-9-test', 1928",
-        //"'day-9-test-double-digits', 3383",
-         "'day-9', 0"
+        "'day-9-test-simple', 60",
+        "'day-9-test-simple-2', 99",
+        "'day-9-test', 1928",
+        "'day-9-test-double-digits', 3383",
+        "'day-9', 0"
+        // 6414160109229, 6414424729461
         // too low: 729060782, 227509067733
         // too high: 6415978510013
     )
