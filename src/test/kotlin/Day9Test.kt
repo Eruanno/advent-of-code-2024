@@ -12,10 +12,7 @@ class Day9Test {
         "'day-9-test-simple-2', 99",
         "'day-9-test', 1928",
         "'day-9-test-double-digits', 3383",
-        "'day-9', 0"
-        // 6414160109229, 6414424729461
-        // too low: 729060782, 227509067733
-        // too high: 6415978510013
+        "'day-9', 6415184586041"
     )
     fun testPartOne(testFile: String, expectedResult: Long) {
         assertEquals(expectedResult, subject.partOne(testFile))
@@ -23,10 +20,10 @@ class Day9Test {
 
     @ParameterizedTest
     @CsvSource(
-        "'day-9-test', 0",
+        "'day-9-test', 2858",
         "'day-9', 0"
     )
-    fun testPartTwo(testFile: String, expectedResult: Int) {
+    fun testPartTwo(testFile: String, expectedResult: Long) {
         assertEquals(expectedResult, subject.partTwo(testFile))
     }
 }
