@@ -106,7 +106,7 @@ class Day12 {
         val minColumn = farm.minBy { it.second }.second
         val maxColumn = farm.maxBy { it.second }.second
         var row = minRow
-        val fences = mutableSetOf<Pair<Int, Int>>()
+        var corners = 0
         while (row <= maxRow) {
             var column = minColumn
             while (column <= maxColumn) {
@@ -114,23 +114,50 @@ class Day12 {
                     column++
                     continue
                 }
-                if (!farm.contains(Pair(row - 1, column))) {
-                    fences.add(Pair(row - 1, column))
+                // Outside corners.
+                if (!farm.contains(Pair(row, column - 1)) && !farm.contains(Pair(row - 1, column - 1)) && !farm.contains(Pair(row - 1, column))) {
+                    corners++
                 }
-                if (!farm.contains(Pair(row + 1, column))) {
-                    fences.add(Pair(row + 1, column))
+                if (!farm.contains(Pair(row - 1, column)) && !farm.contains(Pair(row - 1, column + 1)) && !farm.contains(Pair(row, column + 1))) {
+                    corners++
                 }
-                if (!farm.contains(Pair(row, column - 1))) {
-                    fences.add(Pair(row, column - 1))
+                if (!farm.contains(Pair(row, column + 1)) && !farm.contains(Pair(row + 1, column + 1)) && !farm.contains(Pair(row + 1, column))) {
+                    corners++
                 }
-                if (!farm.contains(Pair(row, column + 1))) {
-                    fences.add(Pair(row, column + 1))
+                if (!farm.contains(Pair(row + 1, column)) && !farm.contains(Pair(row + 1, column - 1)) && !farm.contains(Pair(row, column - 1))) {
+                    corners++
+                }
+                // Inside corners.
+                if (farm.contains(Pair(row, column -1 )) && farm.contains(Pair(row -1 , column )) && !farm.contains(Pair(row - 1, column - 1))) {
+                    corners++
+                }
+                if (farm.contains(Pair(row - 1, column)) && farm.contains(Pair(row, column +1)) && !farm.contains(Pair(row - 1, column + 1))) {
+                    corners++
+                }
+                if (farm.contains(Pair(row, column+1)) && farm.contains(Pair(row+1, column )) && !farm.contains(Pair(row +1, column+1))) {
+                    corners++
+                }
+                if (farm.contains(Pair(row+1, column)) && farm.contains(Pair(row, column-1 )) && !farm.contains(Pair(row+1, column-1 ))) {
+                    corners++
+                }
+                // cross corners corners.
+                if (!farm.contains(Pair(row, column -1 )) && !farm.contains(Pair(row -1 , column )) && farm.contains(Pair(row - 1, column - 1))) {
+                    corners++
+                }
+                if (!farm.contains(Pair(row - 1, column)) && !farm.contains(Pair(row, column +1)) && farm.contains(Pair(row - 1, column + 1))) {
+                    corners++
+                }
+                if (!farm.contains(Pair(row, column+1)) && !farm.contains(Pair(row+1, column )) && farm.contains(Pair(row +1, column+1))) {
+                    corners++
+                }
+                if (!farm.contains(Pair(row+1, column)) && !farm.contains(Pair(row, column-1 )) && farm.contains(Pair(row+1, column-1 ))) {
+                    corners++
                 }
                 column++
             }
             row++
         }
-        return fences.size * farm.size
+        return corners * farm.size
     }
 
     private fun toCharMatrix(strings: List<String>): MutableList<MutableList<Char>> {

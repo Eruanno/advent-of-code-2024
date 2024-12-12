@@ -19,8 +19,10 @@ class Day12Test {
     @ParameterizedTest
     @CsvSource(
         "'day-12-test-simple', 80",
+        "'day-12-test-e-shaped', 236",
+        "'day-12-test-a-b', 368",
         "'day-12-test', 1206",
-        "'day-12', 1433460"
+        "'day-12', 855082"
     )
     fun testPartTwo(testFile: String, expectedResult: Int) {
         assertEquals(expectedResult, subject.partTwo(testFile))
