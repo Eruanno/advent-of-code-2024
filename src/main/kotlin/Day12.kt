@@ -140,7 +140,7 @@ class Day12 {
                 if (farm.contains(Pair(row+1, column)) && farm.contains(Pair(row, column-1 )) && !farm.contains(Pair(row+1, column-1 ))) {
                     corners++
                 }
-                // cross corners corners.
+                // Cross corners.
                 if (!farm.contains(Pair(row, column -1 )) && !farm.contains(Pair(row -1 , column )) && farm.contains(Pair(row - 1, column - 1))) {
                     corners++
                 }
