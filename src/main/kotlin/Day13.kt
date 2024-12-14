@@ -19,8 +19,7 @@ class Day13 {
         val x = (arcade.prize.first * arcade.buttonB.second - arcade.prize.second * arcade.buttonB.first) / denominator
         val y = (arcade.prize.first * arcade.buttonA.second - arcade.prize.second * arcade.buttonA.first) / denominator
         if (isInteger(x) && isInteger(y)) {
-            val result = (abs(x.toLong()) * 3 + abs(y.toLong()))
-            return result
+            return abs(x.toLong()) * 3 + abs(y.toLong())
         }
         return 0
     }
