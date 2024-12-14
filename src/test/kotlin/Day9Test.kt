@@ -21,7 +21,7 @@ class Day9Test {
     @ParameterizedTest
     @CsvSource(
         "'day-9-test', 2858",
-        "'day-9', 0"
+        "'day-9', 6436819084274"
     )
     fun testPartTwo(testFile: String, expectedResult: Long) {
         assertEquals(expectedResult, subject.partTwo(testFile))
