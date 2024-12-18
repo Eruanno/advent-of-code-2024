@@ -2,7 +2,6 @@ import org.eruanno.Day18
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import kotlin.test.Test
 
 class Day18Test {
     private val subject = Day18()
@@ -12,8 +11,8 @@ class Day18Test {
         "'day-18-test', 22, 12, 6",
         "'day-18', 298, 1024, 70"
     )
-    fun testPartOne(testFile: String, expectedResult: Int, bytes: Int, size: Int) {
-        assertEquals(expectedResult, subject.partOne(testFile, bytes, size))
+    fun testPartOne(testFile: String, expectedResult: Int, bytes: Int, dimension: Int) {
+        assertEquals(expectedResult, subject.partOne(testFile, bytes, dimension))
     }
 
     @ParameterizedTest
@@ -21,7 +20,7 @@ class Day18Test {
         "'day-18-test', '6,1', 6",
         "'day-18', '52,32', 70"
     )
-    fun testPartTwo(testFile: String, expectedResult: String, size: Int) {
-        assertEquals(expectedResult, subject.partTwo(testFile, size))
+    fun testPartTwo(testFile: String, expectedResult: String, dimension: Int) {
+        assertEquals(expectedResult, subject.partTwo(testFile, dimension))
     }
 }
