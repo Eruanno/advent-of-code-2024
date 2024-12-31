@@ -41,8 +41,7 @@ class Day16 {
                 val resolved = resolve(pole.second.second, '>')
                 toVisit.add(
                     Pair(
-                        Pair(pole.first.first, pole.first.second + 1),
-                        Pair(pole.second.first + resolved, '>')
+                        Pair(pole.first.first, pole.first.second + 1), Pair(pole.second.first + resolved, '>')
                     )
                 )
             }
@@ -50,8 +49,7 @@ class Day16 {
                 val resolved = resolve(pole.second.second, 'v')
                 toVisit.add(
                     Pair(
-                        Pair(pole.first.first + 1, pole.first.second),
-                        Pair(pole.second.first + resolved, 'v')
+                        Pair(pole.first.first + 1, pole.first.second), Pair(pole.second.first + resolved, 'v')
                     )
                 )
             }
@@ -59,8 +57,7 @@ class Day16 {
                 val resolved = resolve(pole.second.second, '<')
                 toVisit.add(
                     Pair(
-                        Pair(pole.first.first, pole.first.second - 1),
-                        Pair(pole.second.first + resolved, '<')
+                        Pair(pole.first.first, pole.first.second - 1), Pair(pole.second.first + resolved, '<')
                     )
                 )
             }
@@ -68,8 +65,7 @@ class Day16 {
                 val resolved = resolve(pole.second.second, '^')
                 toVisit.add(
                     Pair(
-                        Pair(pole.first.first - 1, pole.first.second),
-                        Pair(pole.second.first + resolved, '^')
+                        Pair(pole.first.first - 1, pole.first.second), Pair(pole.second.first + resolved, '^')
                     )
                 )
             }
@@ -77,7 +73,7 @@ class Day16 {
         return result
     }
 
-    fun resolve(direction: Char, next: Char): Int {
+    private fun resolve(direction: Char, next: Char): Int {
         if (direction == '>') {
             if (next == '>') {
                 return 1
@@ -139,95 +135,73 @@ class Day16 {
 
     fun partTwo(fileName: String): Int {
         val maze = toCharMatrix(getLines(fileName))
-        val visited = mutableMapOf<Pair<Int, Int>, Pair<Int, Char>>()
-        val toVisit = LinkedList<Pair<Pair<Int, Int>, Pair<Int, Char>>>()
-        var end = Pair(0, 0)
-        var i = 0
-        while (i < maze.size) {
-            var j = 0
-            while (j < maze[0].size) {
-                if (maze[i][j] == 'S') {
-                    toVisit.add(Pair(Pair(i, j), Pair(0, '>')))
+        val (start, end) = maze.flatMapIndexed { i, row ->
+            row.mapIndexedNotNull { j, char ->
+                when (char) {
+                    'S' -> i to j
+                    'E' -> i to j
+                    else -> null
                 }
-                if (maze[i][j] == 'E') {
-                    end = Pair(i, j)
-                }
-                j++
             }
-            i++
+        }.let { positions ->
+            positions.first { maze[it.first][it.second] == 'S' } to positions.first { maze[it.first][it.second] == 'E' }
         }
-        var result = Int.MAX_VALUE
-        while (true) {
-            val pole = toVisit.poll()
-            if (pole == null) {
-                break
+        val paths = findAllPathsInMaze(maze, start, end)
+        val pathsWithCost = paths.map { calculatePathWithCost(it) }
+        return pathsWithCost.filter { it.second == pathsWithCost.minOf { path -> path.second } }
+            .flatMap { it.first }
+            .toSet().size
+    }
+
+    private fun calculatePathWithCost(path: List<Pair<Int, Int>>): Pair<List<Pair<Int, Int>>, Int> {
+        var direction = '>'
+        var acc = 0
+        for (i in 0 until path.size - 1) {
+            var nextDirection = direction
+            if (path[i].first == path[i + 1].first + 1) {
+                nextDirection = 'v'
+            } else if (path[i].first == path[i + 1].first - 1) {
+                nextDirection = '^'
+            } else if (path[i].second == path[i + 1].second + 1) {
+                nextDirection = '>'
+            } else if (path[i].second == path[i + 1].second - 1) {
+                nextDirection = '<'
             }
-            if (maze[pole.first.first][pole.first.second] == 'E') {
-                if (pole.second.first < result) {
-                    result = pole.second.first
-                }
-            }
-            if (visited.contains(pole.first)) {
-                if (visited[pole.first]!!.first < pole.second.first) {
-                    continue
-                }
-            }
-            visited[pole.first] = pole.second
-            if (maze[pole.first.first][pole.first.second + 1] != '#') {
-                val resolved = resolve(pole.second.second, '>')
-                toVisit.add(
-                    Pair(
-                        Pair(pole.first.first, pole.first.second + 1),
-                        Pair(pole.second.first + resolved, '>')
-                    )
-                )
-            }
-            if (maze[pole.first.first + 1][pole.first.second] != '#') {
-                val resolved = resolve(pole.second.second, 'v')
-                toVisit.add(
-                    Pair(
-                        Pair(pole.first.first + 1, pole.first.second),
-                        Pair(pole.second.first + resolved, 'v')
-                    )
-                )
-            }
-            if (maze[pole.first.first][pole.first.second - 1] != '#') {
-                val resolved = resolve(pole.second.second, '<')
-                toVisit.add(
-                    Pair(
-                        Pair(pole.first.first, pole.first.second - 1),
-                        Pair(pole.second.first + resolved, '<')
-                    )
-                )
-            }
-            if (maze[pole.first.first - 1][pole.first.second] != '#') {
-                val resolved = resolve(pole.second.second, '^')
-                toVisit.add(
-                    Pair(
-                        Pair(pole.first.first - 1, pole.first.second),
-                        Pair(pole.second.first + resolved, '^')
-                    )
-                )
-            }
+            acc += resolve(direction, nextDirection)
+            direction = nextDirection
         }
-        while (true) {
-            var toCheck = mutableSetOf<Pair<Int, Int>>()
-            for ((key, value) in visited) {
-                if (key.first == end.first && key.second - 1 == end.second && value.second == '>') {
-                    toCheck.add(key)
-                }
-                if (key.first - 1 == end.first && key.second == end.second && value.second == 'v') {
-                    toCheck.add(key)
-                }
-                if (key.first == end.first && key.second + 1 == end.second && value.second == '<') {
-                    toCheck.add(key)
-                }
-                if (key.first + 1 == end.first && key.second == end.second && value.second == '^') {
-                    toCheck.add(key)
-                }
+        return path to acc
+    }
+
+    private fun findAllPathsInMaze(maze: MutableList<MutableList<Char>>, start: Pair<Int, Int>, end: Pair<Int, Int>): List<List<Pair<Int, Int>>> {
+        val allPaths = mutableListOf<List<Pair<Int, Int>>>()
+        val currentPath = mutableListOf<Pair<Int, Int>>()
+        val rows = maze.size
+        val cols = maze[0].size
+
+        fun dfs(x: Int, y: Int) {
+            if (x < 0 || y < 0 || x >= rows || y >= cols || maze[x][y] == '#') return
+
+            currentPath.add(Pair(x, y))
+
+            if (x == end.first && y == end.second) {
+                allPaths.add(currentPath.toList())
+            } else {
+                maze[x][y] = '#'
+
+                dfs(x - 1, y)
+                dfs(x + 1, y)
+                dfs(x, y - 1)
+                dfs(x, y + 1)
+
+                maze[x][y] = '.'
             }
+
+            currentPath.removeAt(currentPath.size - 1)
         }
-        return result
+
+        dfs(start.first, start.second)
+        return allPaths
     }
 
     private fun toCharMatrix(strings: List<String>): MutableList<MutableList<Char>> {
